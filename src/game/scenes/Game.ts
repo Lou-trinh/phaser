@@ -25,8 +25,8 @@ export class Game extends Scene {
 
         let isReload = false;
 
-        button.setInteractive({ useHandCursor: true });
-
+        button.setInteractive();
+        
         button.on('pointerdown', () => {
             isReload = !isReload;
             if (isReload) {
@@ -35,6 +35,8 @@ export class Game extends Scene {
                 goblin.animationState.setAnimation(0, 'reload', true);
             } 
         });
+        
+        
     }
 
 }   
