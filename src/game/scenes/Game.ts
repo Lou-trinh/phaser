@@ -24,7 +24,6 @@ export class Game extends Scene {
         let reloadTimeout: ReturnType<typeof setTimeout> | null = null;
 
         this.input.on('pointerdown', () => {
-            // Hủy timeout cũ nếu đang có
             if (reloadTimeout !== null) {
                 clearTimeout(reloadTimeout);
             }
