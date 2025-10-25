@@ -7,36 +7,34 @@ export class Game extends Scene {
     }
 
     preload() {
-        this.load.setPath('assets/spine/goblins/'); 
+        this.load.setPath('assets/spine/goblins/');
 
         this.load.spineAtlas('goblins-atlas', 'player_31_gameplay.atlas');
         this.load.spineJson('goblins', 'player_31_gameplay.json');
     }
 
     create() {
-        const goblin = this.add.spine(550, 630, "goblins", "goblins-atlas", 
+        const goblin = this.add.spine(550, 630, "goblins", "goblins-atlas",
             new SkinsAndAnimationBoundsProvider(null, ["default"])
         );
         goblin.skeleton.setSkinByName("default");
         goblin.animationState.setAnimation(0, 'reload', true);
         goblin.scale = 0.5;
 
-        const button = this.add.text(520, 100, 'change');
+        let reloadTimeout: ReturnType<typeof setTimeout> | null = null;
 
-        let isReload = false;
+        this.input.on('pointerdown', () => {
+            // Hủy timeout cũ nếu đang có
+            if (reloadTimeout !== null) {
+                clearTimeout(reloadTimeout);
+            }
 
-        button.setInteractive();
-        
-        button.on('pointerdown', () => {
-            isReload = !isReload;
-            if (isReload) {
-                goblin.animationState.setAnimation(0, 'shoot', true);
-            } else {
+            goblin.animationState.setAnimation(0, 'shoot', true);
+
+            
+            reloadTimeout = setTimeout(() => {
                 goblin.animationState.setAnimation(0, 'reload', true);
-            } 
+            }, 500);
         });
-        
-        
     }
-
-}   
+}
